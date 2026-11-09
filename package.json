@@ -2,13 +2,12 @@
   "name": "reading-list",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "api": "json-server --watch db.json --port 3001 --delay 800 --middlewares ./fail.cjs"
+    "api": "json-server --watch db.json --port 3001 --delay 800 --middlewares ./fail.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",
