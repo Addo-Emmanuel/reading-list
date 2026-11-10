@@ -1,1 +1,11 @@
-{ "books": [] }
+{
+  "books": [
+    {
+      "title": "Things fall apart",
+      "author": "Addo",
+      "status": "Want to read",
+      "rating": 0,
+      "id": 6
+    }
+  ]
+}
