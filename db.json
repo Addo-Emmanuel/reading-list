@@ -1,13 +1,6 @@
 {
   "books": [
     {
-      "title": "Cars",
-      "author": "Emma",
-      "status": "Want to read",
-      "rating": 0,
-      "id": 5
-    },
-    {
       "title": "Things fall apart",
       "author": "Addo",
       "status": "Want to read",
