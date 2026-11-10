@@ -76,8 +76,12 @@ function App() {
 
   // --- STAGE 1: Add a book (refetch after success) ---
   const addBookMutation = useMutation({
-    mutationFn: (newBook: { title: string; author: string; status: Status; rating: number }) =>
-      createBook(newBook, simulateErrors),
+    mutationFn: (newBook: {
+      title: string;
+      author: string;
+      status: Status;
+      rating: number;
+    }) => createBook(newBook, simulateErrors),
     onSuccess: (savedBook) => {
       // Invalidate the query so the list reloads from the server
       queryClient.invalidateQueries({ queryKey: bookKeys.all });
@@ -132,7 +136,7 @@ function App() {
       if (previousBooks) {
         queryClient.setQueryData<Book[]>(
           bookKeys.all,
-          previousBooks.filter((b) => b.id !== id)
+          previousBooks.filter((b) => b.id !== id),
         );
       }
 
@@ -146,7 +150,11 @@ function App() {
       }
       const book = context?.previousBooks?.find((b) => b.id === id);
       const bookTitle = book ? book.title : "this book";
-      showToast(`Could not remove "${bookTitle}"`, "It was restored to your list.", true);
+      showToast(
+        `Could not remove "${bookTitle}"`,
+        "It was restored to your list.",
+        true,
+      );
     },
     onSettled: () => {
       // Always refetch after error or success to ensure server and client match
@@ -172,7 +180,7 @@ function App() {
       if (previousBooks) {
         queryClient.setQueryData<Book[]>(
           bookKeys.all,
-          previousBooks.map((b) => (b.id === id ? { ...b, rating } : b))
+          previousBooks.map((b) => (b.id === id ? { ...b, rating } : b)),
         );
       }
 
@@ -198,7 +206,9 @@ function App() {
         <div className="flex justify-between items-start">
           <div>
             <h1 className="font-bold text-3xl">Page Turner</h1>
-            <p className="text-sm text-gray-600">Your reading list. Sample data for a practice project.</p>
+            <p className="text-sm text-gray-600">
+              Your reading list. Sample data for a practice project.
+            </p>
           </div>
 
           {/* Stage 5: Simulate server errors switch */}
@@ -222,7 +232,9 @@ function App() {
           <form onSubmit={handleAddBook}>
             <div className="flex items-end gap-4">
               <div className="flex-1">
-                <label className="block text-xs font-semibold mb-1 text-gray-700">Title</label>
+                <label className="block text-xs font-semibold mb-1 text-gray-700">
+                  Title
+                </label>
                 <input
                   className="w-full border border-gray-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
@@ -236,7 +248,9 @@ function App() {
               </div>
 
               <div className="flex-1">
-                <label className="block text-xs font-semibold mb-1 text-gray-700">Author</label>
+                <label className="block text-xs font-semibold mb-1 text-gray-700">
+                  Author
+                </label>
                 <input
                   className="w-full border border-gray-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="text"
@@ -258,7 +272,8 @@ function App() {
             {/* Error message under the form if mutation fails */}
             {addBookMutation.isError && (
               <p className="text-xs text-red-600 mt-2 font-medium">
-                {addBookMutation.error.message || "Failed to add book. Please try again."}
+                {addBookMutation.error.message ||
+                  "Failed to add book. Please try again."}
               </p>
             )}
           </form>
@@ -274,15 +289,22 @@ function App() {
           </div>
 
           {isLoading && (
-            <p className="text-sm text-gray-500 py-6 text-center">Loading your books...</p>
+            <p className="text-sm text-gray-500 py-6 text-center">
+              Loading your books...
+            </p>
           )}
 
           {isLoadError && (
             <div className="py-4 text-center">
-              <p className="text-sm text-red-600 font-medium">Error loading books from server.</p>
+              <p className="text-sm text-red-600 font-medium">
+                Error loading books from server.
+              </p>
               <p className="text-xs text-gray-500 mt-1">{loadError.message}</p>
               <p className="text-xs text-gray-400 mt-2">
-                Make sure the fake API is running: <code className="bg-gray-100 px-1 py-0.5 rounded">npm run api</code>
+                Make sure the fake API is running:{" "}
+                <code className="bg-gray-100 px-1 py-0.5 rounded">
+                  npm run api
+                </code>
               </p>
             </div>
           )}
@@ -311,8 +333,12 @@ function App() {
                     }`}
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm truncate">{book.title}</p>
-                      <p className="text-xs text-gray-500 truncate">{book.author}</p>
+                      <p className="font-semibold text-sm truncate">
+                        {book.title}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {book.author}
+                      </p>
                     </div>
 
                     {/* Stage 2: Status dropdown */}
@@ -343,8 +369,12 @@ function App() {
                           disabled={isRowDisabled}
                           onClick={() => {
                             // Toggle off to 0 if clicking the current rating, otherwise set to starValue
-                            const nextRating = book.rating === starValue ? 0 : starValue;
-                            rateBookMutation.mutate({ id: book.id, rating: nextRating });
+                            const nextRating =
+                              book.rating === starValue ? 0 : starValue;
+                            rateBookMutation.mutate({
+                              id: book.id,
+                              rating: nextRating,
+                            });
                           }}
                         />
                       ))}
@@ -366,7 +396,8 @@ function App() {
           )}
 
           <p className="text-xs text-gray-500 mt-4 pt-3 border-t border-gray-100">
-            TanStack Query mutations handle server changes with refetching and optimistic updates.
+            TanStack Query mutations handle server changes with refetching and
+            optimistic updates.
           </p>
         </div>
       </div>
@@ -376,7 +407,9 @@ function App() {
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-2xl border border-slate-700 max-w-xs animate-in fade-in slide-in-from-bottom-2 duration-200">
           <p className="font-semibold text-sm text-white">{toast.title}</p>
           {toast.description && (
-            <p className="text-gray-300 mt-1 leading-relaxed">{toast.description}</p>
+            <p className="text-gray-300 mt-1 leading-relaxed">
+              {toast.description}
+            </p>
           )}
         </div>
       )}

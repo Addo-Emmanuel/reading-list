@@ -20,7 +20,7 @@ export const bookKeys = {
 async function request<T>(
   endpoint: string,
   options: RequestInit = {},
-  simulateError = false
+  simulateError = false,
 ): Promise<T> {
   const headers = new Headers(options.headers || {});
   headers.set("Content-Type", "application/json");
@@ -62,7 +62,7 @@ export async function getBooks(): Promise<Book[]> {
 // 2. Add a book (POST /books)
 export async function createBook(
   book: { title: string; author: string; status: Status; rating: number },
-  simulateError = false
+  simulateError = false,
 ): Promise<Book> {
   return request<Book>(
     "/books",
@@ -70,7 +70,7 @@ export async function createBook(
       method: "POST",
       body: JSON.stringify(book),
     },
-    simulateError
+    simulateError,
   );
 }
 
@@ -78,7 +78,7 @@ export async function createBook(
 export async function updateStatus(
   id: number,
   status: Status,
-  simulateError = false
+  simulateError = false,
 ): Promise<Book> {
   return request<Book>(
     `/books/${id}`,
@@ -86,7 +86,7 @@ export async function updateStatus(
       method: "PATCH",
       body: JSON.stringify({ status }),
     },
-    simulateError
+    simulateError,
   );
 }
 
@@ -94,7 +94,7 @@ export async function updateStatus(
 export async function updateRating(
   id: number,
   rating: number,
-  simulateError = false
+  simulateError = false,
 ): Promise<Book> {
   return request<Book>(
     `/books/${id}`,
@@ -102,20 +102,20 @@ export async function updateRating(
       method: "PATCH",
       body: JSON.stringify({ rating }),
     },
-    simulateError
+    simulateError,
   );
 }
 
 // 5. Delete a book (DELETE /books/:id)
 export async function deleteBook(
   id: number,
-  simulateError = false
+  simulateError = false,
 ): Promise<void> {
   return request<void>(
     `/books/${id}`,
     {
       method: "DELETE",
     },
-    simulateError
+    simulateError,
   );
 }
